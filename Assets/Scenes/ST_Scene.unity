@@ -325,6 +325,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3216629241006887918, guid: 7964de905807ebc48ae67636fff66a0f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3216629241742295660, guid: 7964de905807ebc48ae67636fff66a0f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5721464322701424819, guid: 7964de905807ebc48ae67636fff66a0f, type: 3}
       propertyPath: m_Name
       value: Office
