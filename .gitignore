@@ -70,3 +70,15 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Library/SourceAssetDB
+Library/shadercompiler-UnityShaderCompiler.exe0.log
+Library/ScriptAssemblies/Mirror.Examples.pdb
+Library/ScriptAssemblies/Mirror.Examples.dll
+Library/ScriptAssemblies/Mirror.Examples.Cloud.Pong.pdb
+Library/ScriptAssemblies/Mirror.Examples.Cloud.Pong.dll
+Library/ScriptAssemblies/Mirror.Components.pdb
+Library/ScriptAssemblies/Mirror.Components.dll
+Library/ScriptAssemblies/Mirror.Authenticators.pdb
+Library/ScriptAssemblies/Mirror.Authenticators.dll
+Library/PackageManager/ProjectCache
+Library/ArtifactDB
