@@ -9,6 +9,10 @@ public class MouseLook : NetworkBehaviour
     public GameObject playerCameraPrefab;
     public GameObject playerCamera;
 
+    public Vector3 camHolderPosition;
+    public Vector3 camHolderDefault;
+    public Vector3 camHolderCrouch;
+
     float mouseX;
     float mouseY;
     float xRotation;
@@ -20,6 +24,7 @@ public class MouseLook : NetworkBehaviour
         if (hasAuthority)
         {
             playerCamera = Instantiate(playerCameraPrefab, camHolder);
+            SetDefaultView();
         }
     }
 
@@ -39,6 +44,12 @@ public class MouseLook : NetworkBehaviour
                 yRotation += mouseX;
 
             transform.rotation = Quaternion.Euler(0, yRotation, 0);
+
+            if(camHolder.transform.localPosition != camHolderPosition)
+            {
+                Vector3 newPos = Vector3.Lerp(camHolder.transform.localPosition, camHolderPosition, 0.1f);
+                camHolder.transform.localPosition = newPos;
+            }
         }
     }
 
@@ -46,5 +57,15 @@ public class MouseLook : NetworkBehaviour
     void Update()
     {
         
+    }
+
+    public void SetCrouchView()
+    {
+        camHolderPosition = camHolderCrouch;
+    }
+
+    public void SetDefaultView()
+    {
+        camHolderPosition = camHolderDefault;
     }
 }

@@ -10,6 +10,7 @@ public class PlayerMove : NetworkBehaviour
     public LayerMask groundLayer;
     public float defaultSpeed = 2;
     public float sprintSpeed = 4;
+    public float crouchingSpeed = 1;
 
     private float speed = 2;
 
@@ -23,6 +24,7 @@ public class PlayerMove : NetworkBehaviour
 
     bool jumpTrigger = false;
     bool isGrounded;
+    bool isCrouching;
 
     Rigidbody rb;
     Animator animator;
@@ -69,7 +71,7 @@ public class PlayerMove : NetworkBehaviour
             velocityX = GetSpeed(rightVelocity, velocityX);
             animator.SetFloat("VelocityX", (float)velocityX);
 
-            if (forwardVelocity > 0 && Input.GetKey(KeyCode.LeftShift))
+            if (!isCrouching && forwardVelocity > 0 && Input.GetKey(KeyCode.LeftShift))
             {
                 if (speed < sprintSpeed)
                     speed += 2 * Time.deltaTime;
@@ -88,7 +90,7 @@ public class PlayerMove : NetworkBehaviour
             animator.SetFloat("RunVelocity", runVelocity);
 
             isGrounded = Physics.CheckSphere(groundCheck.position, 0.3f, groundLayer);
-            if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+            if (!isCrouching && isGrounded && Input.GetKeyDown(KeyCode.Space))
                 jumpTrigger = true;
 
             animator.SetBool("isGrounded", isGrounded);
@@ -105,6 +107,29 @@ public class PlayerMove : NetworkBehaviour
             }
 
             animator.SetFloat("VelocityY", (float)velocityY);
+
+            if(isGrounded && Input.GetKeyDown(KeyCode.C))
+            {
+                isCrouching = !isCrouching;
+
+                if (isCrouching)
+                {
+                    SetCrouchCollider();
+                    SetCrouchView();
+                }
+                else
+                {
+                    SetDefaultCollider();
+                    SetDefaultView();
+                }
+            }
+
+            if (isCrouching)
+            {
+                speed = crouchingSpeed;
+            }
+
+            animator.SetBool("isCrouching", isCrouching);
         }
     }
 
@@ -116,6 +141,10 @@ public class PlayerMove : NetworkBehaviour
             {
                 speed += input * 3 * Time.deltaTime;
                 speed = Math.Round(speed, 2);
+            }
+            else
+            {
+                speed = input;
             }
         }
         else
@@ -131,5 +160,31 @@ public class PlayerMove : NetworkBehaviour
         }
 
         return speed;
+    }
+
+    void SetCrouchCollider()
+    {
+        CapsuleCollider col = GetComponent<CapsuleCollider>();
+        col.center = new Vector3(0f, 0.55f, 0.2f);
+        col.height = 1.1f;
+    }
+
+    void SetDefaultCollider()
+    {
+        CapsuleCollider col = GetComponent<CapsuleCollider>();
+        col.center = new Vector3(0f, 0.9f, 0.03f);
+        col.height = 1.81f;
+    }
+
+    void SetCrouchView()
+    {
+        MouseLook look = GetComponent<MouseLook>();
+        look.SetCrouchView();
+    }
+
+    void SetDefaultView()
+    {
+        MouseLook look = GetComponent<MouseLook>();
+        look.SetDefaultView();
     }
 }
