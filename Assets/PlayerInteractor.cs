@@ -15,8 +15,25 @@ public class PlayerInteractor : NetworkBehaviour
             RaycastHit hit;
             if(Physics.Raycast(camHolder.position, camHolder.transform.forward, out hit, 3))
             {
-                Debug.Log(hit.transform.name);
+                string tag = hit.transform.tag;
+                switch (tag)
+                {
+                    case "Doors":
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            GameObject doors = hit.transform.gameObject;
+                            CmdUseDoors(doors);
+                        }
+                        break;
+                }
             }
         }   
+    }
+
+    [Command]
+    void CmdUseDoors(GameObject doors)
+    {
+        DoorsController doorsController = doors.GetComponent<DoorsController>();
+        doorsController.SetRotation();
     }
 }
