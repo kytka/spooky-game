@@ -22,7 +22,7 @@ public class PlayerInteractor : NetworkBehaviour
                         if (Input.GetMouseButtonDown(0))
                         {
                             GameObject doors = hit.transform.gameObject;
-                            CmdUseDoors(doors);
+                            CmdUseDoorsClick(doors);
                         }
                         break;
                 }
@@ -31,7 +31,14 @@ public class PlayerInteractor : NetworkBehaviour
     }
 
     [Command]
-    void CmdUseDoors(GameObject doors)
+    void CmdUseDoorsHold(GameObject doors, float input)
+    {
+        DoorsController doorsController = doors.GetComponent<DoorsController>();
+        doorsController.UpdateRotation(input); 
+    }
+
+    [Command]
+    void CmdUseDoorsClick(GameObject doors)
     {
         DoorsController doorsController = doors.GetComponent<DoorsController>();
         doorsController.SetRotation();

@@ -23,12 +23,23 @@ public class DoorsController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if((open && transform.rotation.y != openRotation) || !open && transform.rotation.y != closedRotation)
+        if ((open && transform.rotation.y != openRotation) || !open && transform.rotation.y != closedRotation)
         {
             Quaternion rot = Quaternion.Euler(0, yRotation, 0);
             Quaternion lerpRot = Quaternion.Lerp(transform.rotation, rot, 0.1f);
             transform.rotation = lerpRot;
         }
+
+        //if(yRotation <= 270 && yRotation >= 180)
+        //{
+        //    Quaternion rot = Quaternion.Euler(0, yRotation, 0);
+        //    Quaternion lerpRot = Quaternion.Lerp(transform.rotation, rot, 0.1f);
+        //    transform.rotation = lerpRot;
+        //}
+        //else
+        //{
+        //    yRotation = yRotation > 270 ? 270 : 180;
+        //}
     }
 
     [Server]
@@ -42,6 +53,15 @@ public class DoorsController : NetworkBehaviour
                 yRotation = closedRotation;
 
             open = !open;
+        }
+    }
+
+    [Server]
+    public void UpdateRotation(float input)
+    {
+        if (isServer)
+        {
+            yRotation -= input * 10;
         }
     }
 }
